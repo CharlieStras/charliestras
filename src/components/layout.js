@@ -1,5 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { rhythm } from "../utils/typography"
 
 import Header from "./header"
 
