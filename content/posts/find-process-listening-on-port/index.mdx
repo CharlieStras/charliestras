@@ -1,0 +1,32 @@
+---
+title: "Find Process Listening On Port"
+date: "2019-10-31"
+---
+
+## Solution
+
+Suppose the port number is `3000`
+
+- Windows
+
+```shell
+netstat -ano | findstr :3000
+```
+
+Suppose the number of process which listening the port `3000` is `42`. To kill it
+
+```shell
+taskkill /PID 42 /F
+```
+
+- Mac/Linux
+
+```shell
+lsof -i tcp:3000
+```
+
+Kill the process
+
+```shell
+kill 42
+```

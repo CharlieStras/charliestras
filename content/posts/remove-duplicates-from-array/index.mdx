@@ -1,0 +1,52 @@
+---
+title: "Remove Duplicates From Array"
+date: "2019-10-29"
+---
+
+## Example
+
+Input:
+
+```js
+[1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6, 6];
+```
+
+Output:
+
+```js
+[1, 2, 3, 4, 5, 6];
+```
+
+## Solution
+
+1. Use `filter` and `indexOf`
+
+```js
+function removeDuplicatesFromArray(input) {
+  return input.filter((item, index) => input.indexOf(item) == index);
+}
+```
+
+2. Use `object` to mark if an item has appeared
+
+```js
+function removeDuplicatesFromArray(input) {
+  var unique = {};
+
+  input.forEach(item => {
+    if (!unique[item]) {
+      unique[item] = true;
+    }
+  });
+
+  return Object.keys(unique);
+}
+```
+
+3. Create an array from `Set`
+
+```js
+function removeDuplicatesFromArray(input) {
+  return Array.from(new Set(input));
+}
+```

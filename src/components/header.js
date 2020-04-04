@@ -1,40 +1,34 @@
-import { Link } from "gatsby"
-import React from "react"
-import { css } from "@emotion/core"
+import { Link } from "gatsby";
+import React from "react";
 
 const Header = ({ siteTitle }) => (
   <header
-    css={css`
-      background: rebeccapurple;
-      margin-bottom: 1.45rem;
-    `}
+    css={{
+      backgroundColor: "#663399",
+      padding: "15px 0 10px"
+    }}
   >
     <div
-      css={css`
-        margin: 0 auto;
-        max-width: 960px;
-        padding: 1.45rem 1.0875rem;
-      `}
+      css={{
+        margin: "0 auto",
+        width: "100%",
+        maxWidth: 800,
+        padding: "0 40px"
+      }}
     >
-      <h1
-        css={css`
-          margin: 0;
-        `}
-      >
+      <h1>
         <Link
           to="/"
-          css={css`
-            background-image: none;
-            color: white;
-            text-decoration: none;
-            text-shadow: none;
-          `}
+          css={{
+            color: "#fff",
+            textDecoration: "none"
+          }}
         >
           {siteTitle}
         </Link>
       </h1>
     </div>
   </header>
-)
+);
 
-export default Header
+export default Header;

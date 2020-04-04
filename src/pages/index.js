@@ -1,40 +1,59 @@
-import React from "react"
-import { graphql } from "gatsby"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import PostLink from "../components/post-link"
+import React from "react";
+import { graphql, useStaticQuery } from "gatsby";
 
-const IndexPage = ({ data }) => (
-  <Layout>
-    <SEO title="Home" />
-    {data.allMarkdownRemark.edges.map(({ node }) => (
-      <PostLink
-        key={node.id}
-        to={node.fields.slug}
-        title={node.frontmatter.title}
-        date={node.frontmatter.date}
-      ></PostLink>
-    ))}
-  </Layout>
-)
+import Layout from "../components/Layout";
+import SEO from "../components/SEO";
+import PostLink from "../components/PostLink";
 
-export default IndexPage
-
-export const query = graphql`
-  query {
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
-      edges {
-        node {
+const IndexPage = ({ data }) => {
+  const {
+    allMdx: { nodes: posts }
+  } = useStaticQuery(graphql`
+    query {
+      allMdx(sort: { fields: frontmatter___date, order: DESC }) {
+        nodes {
           id
-          frontmatter {
-            title
-            date(formatString: "YYYY年MM月DD日")
-          }
           fields {
             slug
+          }
+          frontmatter {
+            title
           }
         }
       }
     }
-  }
-`
+  `);
+
+  return (
+    <Layout>
+      <SEO title="Home" />
+
+      <ul
+        css={{
+          listStyleType: "none",
+          margin: "5px 0",
+          padding: 0
+        }}
+      >
+        {posts.map(post => (
+          <li
+            key={post.id}
+            css={{
+              marginTop: "15px",
+              "&:first-child": {
+                marginTop: 0
+              }
+            }}
+          >
+            <PostLink
+              slug={post.fields.slug}
+              title={post.frontmatter.title}
+            ></PostLink>
+          </li>
+        ))}
+      </ul>
+    </Layout>
+  );
+};
+
+export default IndexPage;
