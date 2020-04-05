@@ -55,8 +55,11 @@ const Layout = ({ children }) => {
         css={{
           margin: "0 auto",
           width: "100%",
-          maxWidth: 800,
-          padding: "20px 40px"
+          padding: "20px",
+          "@media (min-width: 767px)": {
+            maxWidth: "800px",
+            padding: "20px 40px"
+          }
         }}
       >
         {children}

@@ -40,7 +40,7 @@ const IndexPage = ({ data }) => {
             key={post.id}
             css={{
               marginTop: "15px",
-              "&:first-child": {
+              "&:first-of-type": {
                 marginTop: 0
               }
             }}
