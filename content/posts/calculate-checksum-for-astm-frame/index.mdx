@@ -1,0 +1,43 @@
+---
+title: "Calculate Checksum For ASTM Frame"
+date: "2020-05-04"
+---
+
+The structure of a frame is something like below
+
+```none
+[STX][F#][Text][ETX][CHK1][CHK2][CR][LF]
+```
+
+If the record is longer than the maximum number of characters, it is divided into 2 or more frames. The intermediate frame text termination code is `[ETB]`, and the final frame text termination code is `[ETX]`, as shown below
+
+```none
+[STX][F#][Text][ETB][CHK1][CHK2][CR][LF]
+[STX][F#][Text][ETB][CHK1][CHK2][CR][LF]
+......
+[STX][F#][Text][ETX][CHK1][CHK2][CR][LF]
+```
+
+`[CHK1][CHK2]` is expressed by characters "0" - "9" and "A" - "F". Characters beginning from the character following `[STX]` and until `[ETB]` or `[ETX]` (including `[ETB]` or `[ETX]`) are added in binary. The 2-digit numbers, which represent the least significant 8 bits in hexadecimal code, are converted to ASCII characters "0" - "9" and "A" - "F". The most significant digit is stored in `CHK1` and the least significant digit in `CHK2`.
+
+Suppose the frame is stored in `input`, we can calculate the cheksum as below
+
+```js
+function calculateChecksum(input) {
+  return input
+    .slice(1)
+    .split("")
+    .reduce((a, b) => a + b.charCodeAt(0), 0)
+    .toString(16)
+    .slice(-2)
+    .toUpperCase()
+    .padStart(2, "0");
+}
+
+var foo =
+  "\x021H|\\^&|||CT-90^00-15 ^00001^^^^BD934079||||||||E1394-97|20171104070923\x0D\x03";
+console.log(calculateChecksum(foo)); // '58'
+
+foo = "\x023O|1|||||20171104070923|||||N||||||||||||||F|||||\x0D\x03";
+console.log(calculateChecksum(foo)); // 'A4'
+```
